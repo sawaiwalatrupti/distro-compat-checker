@@ -15,22 +15,22 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LIB_DIR="$SCRIPT_DIR/lib"
-SHARED_LIB="$SCRIPT_DIR/../../../bash-test-libs/bash"
+SHARED_LIB="$SCRIPT_DIR/../../../testlib-core/bash"
 
 # ── load shared library ───────────────────────────────────────────────────────
 if [[ ! -d "$SHARED_LIB" ]]; then
-    echo "ERROR: bash-test-libs not found at: $SHARED_LIB" >&2
-    echo "       Clone it: git clone https://github.com/sawaiwalatrupti/bash-test-libs.git" >&2
+    echo "ERROR: testlib-core not found at: $SHARED_LIB" >&2
+    echo "       Clone it: git clone https://github.com/sawaiwalatrupti/testlib-core.git" >&2
     exit 1
 fi
 
-# shellcheck source=../../../bash-test-libs/bash/colors.sh
+# shellcheck source=../../../testlib-core/bash/colors.sh
 source "$SHARED_LIB/colors.sh"
-# shellcheck source=../../../bash-test-libs/bash/output.sh
+# shellcheck source=../../../testlib-core/bash/output.sh
 source "$SHARED_LIB/output.sh"
-# shellcheck source=../../../bash-test-libs/bash/results.sh
+# shellcheck source=../../../testlib-core/bash/results.sh
 source "$SHARED_LIB/results.sh"
-# shellcheck source=../../../bash-test-libs/bash/distro.sh
+# shellcheck source=../../../testlib-core/bash/distro.sh
 source "$SHARED_LIB/distro.sh"
 
 # ── load local check functions ────────────────────────────────────────────────

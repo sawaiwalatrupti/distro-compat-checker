@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # lib/checks.sh — individual compatibility check functions
 #
-# Requires: bash-test-libs/bash/colors.sh, output.sh, results.sh sourced first.
+# Requires: testlib-core/bash/colors.sh, output.sh, results.sh sourced first.
 # Also requires: detect_distro() called so PKG_MGR and DISTRO_NAME are set.
 
 check_package() {
