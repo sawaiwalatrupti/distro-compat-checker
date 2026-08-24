@@ -40,6 +40,7 @@ source "$LIB_DIR/checks.sh"
 source "$LIB_DIR/default_suite.sh"
 
 # ── state ─────────────────────────────────────────────────────────────────────
+# shellcheck disable=SC2034  # consumed by emit() in testlib-core/bash/output.sh
 REPORT_LINES=()
 PASS=0; FAIL=0; WARN=0
 OUTPUT_FILE=""

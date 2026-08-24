@@ -78,7 +78,7 @@ check_service() {
         return
     fi
 
-    if ! systemctl list-unit-files "${svc}.service" &>/dev/null; then
+    if ! systemctl cat "${svc}.service" &>/dev/null; then
         result_fail "Service unit not found: ${svc}.service"
         return
     fi

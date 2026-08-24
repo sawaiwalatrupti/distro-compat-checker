@@ -20,8 +20,19 @@ run_default_suite() {
     check_service "rsyslog"
     check_config  "/etc/rsyslog.conf"
 
-    # Cron (name differs between distros)
-    check_service "crond" 2>/dev/null || check_service "cron" 2>/dev/null || true
+    # Cron (name differs between distros — crond on RHEL/SLES, cron on Debian/Ubuntu)
+    local cron_svc=""
+    if systemctl cat crond.service &>/dev/null; then
+        cron_svc="crond"
+    elif systemctl cat cron.service &>/dev/null; then
+        cron_svc="cron"
+    fi
+    if [[ -n "$cron_svc" ]]; then
+        check_service "$cron_svc"
+    else
+        emit ""
+        result_warn "No cron service found (checked crond, cron)"
+    fi
 
     # Network
     check_service "NetworkManager"
