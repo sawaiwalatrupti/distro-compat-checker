@@ -1,5 +1,7 @@
 # distro-compat-checker
 
+![CI](https://github.com/sawaiwalatrupti/distro-compat-checker/actions/workflows/ci.yml/badge.svg)
+
 A Bash script that validates whether packages, binaries, kernel modules, systemd services, and config files are present and working correctly on the current Linux distribution.
 
 Useful for cross-distro validation — verifying that a component behaves identically on RHEL, SLES, Ubuntu, and Debian.
@@ -121,5 +123,12 @@ This makes it suitable for use in CI pipelines — run as a pre-test sanity chec
 - `systemctl` (for service checks)
 - `rpm` or `dpkg` (for package checks — auto-detected)
 - `lsmod` and `modinfo` (for module checks)
+- [testlib-core](https://github.com/sawaiwalatrupti/testlib-core) cloned as a sibling directory
 
-Tested on RHEL 9, SLES 15 SP5, Ubuntu 22.04.
+```bash
+git clone https://github.com/sawaiwalatrupti/testlib-core.git
+git clone https://github.com/sawaiwalatrupti/distro-compat-checker.git
+# both must be in the same parent directory
+```
+
+Tested on RHEL 9, SLES 15 SP5, Ubuntu 22.04, Ubuntu 24.04.
