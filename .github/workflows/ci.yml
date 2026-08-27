@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint:
-    name: Shellcheck Lint
+    name: "🔍 Shellcheck — Static Analysis"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,5 +16,62 @@ jobs:
       - name: Install shellcheck
         run: sudo apt-get install -y shellcheck
 
-      - name: Run lint
-        run: make lint
+      - name: "Run shellcheck on all bash files"
+        run: |
+          echo "=================================================="
+          echo "  Running shellcheck on all scripts"
+          echo "=================================================="
+          make lint
+          echo ""
+          echo "✅ All bash files passed shellcheck"
+
+  compat-check:
+    name: "🧪 Compatibility Check — Full Run"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clone testlib-core
+        run: |
+          echo "=================================================="
+          echo "  Cloning testlib-core (shared library)"
+          echo "=================================================="
+          git clone --depth=1 https://github.com/sawaiwalatrupti/testlib-core.git ../testlib-core
+          echo "✅ testlib-core ready"
+
+      - name: Install packages used in the default suite
+        run: |
+          echo "=================================================="
+          echo "  Installing test packages on CI runner"
+          echo "=================================================="
+          sudo apt-get update -q
+          sudo apt-get install -y \
+            openssh-server \
+            rsyslog \
+            gcc g++ make \
+            perl \
+            tar gzip
+          sudo systemctl start ssh || true
+          sudo systemctl start rsyslog || true
+          echo "✅ Packages installed"
+
+      - name: "Run full compatibility check — default suite"
+        run: |
+          echo "=================================================="
+          echo "  Running check_compat.sh --all"
+          echo "  This checks: binaries, services, configs, modules"
+          echo "=================================================="
+          cd tests/compat
+          bash check_compat.sh --all
+          echo ""
+          echo "✅ Compatibility check complete — see report above"
+
+      - name: "Run targeted checks — individual flags"
+        run: |
+          echo "=================================================="
+          echo "  Running targeted checks (-p -b -c flags)"
+          echo "=================================================="
+          cd tests/compat
+          bash check_compat.sh -p openssh-server -b ssh -b gcc -c /etc/ssh/sshd_config
+          echo ""
+          echo "✅ Targeted checks complete"
